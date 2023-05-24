@@ -39,6 +39,7 @@ typedef struct instruction_s
 /*FILE PARSER FUNCTIONS*/
 
 char *getfile(char* file);
-char **token_maker(char *str, char *delim, int *len);
+char **token_maker(char *str, char *delim, int*);
+int no_of_lines(char *str);
 
 #endif

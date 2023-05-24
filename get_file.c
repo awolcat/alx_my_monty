@@ -18,6 +18,5 @@ char *getfile(char* file)
 		buffer[i] = c;
 	fclose(stream);
 	buffer[i] = '\0';
-	printf("%s\n", buffer);
 	return (buffer);
 }

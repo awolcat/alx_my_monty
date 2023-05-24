@@ -1,89 +1,39 @@
 #include "monty.h"
 int main(int argc, char *argv[])
 {
-	char *buffer = NULL, **tokens = NULL, *temp = NULL, *delim = "\t\n ";
-	char *piece = NULL;
-	int len = 0, i, index;	/*file lengths in bytes*/
+	char *buffer = NULL, **tokens = NULL;
+	char *delim = " \n\t";
+	char copy[1024];
+	int i, line_count;	/*file lengths in bytes*/
+	stack_t **head;
+	unsigned int line = 0;
+	
+	instruction_t commands[] = {
+		{"push", add_head},
+		{"pall", print_list},
+		{NULL, NULL}
+	}
 
 	/*Usage: monty file*/
 	if (argc == 2)
 	{
-	buffer = getfile(argv[1]);
-	printf("%s\n", buffer);
-	/*Get number of lines/commands*/
-	for (i = 0; buffer[i] != '\0'; i++)
-	{
-		if (buffer[i] == '\n')
-			len += 1;
-	}
-	/*Remove spaces and tabs from file input*/
-	temp = malloc(sizeof(char) * 1024);
-	if(!temp)
-	{
-		printf("malloc failed\n");
-		return (0);
-	}
-	for (i = 0; buffer[i] != '\0'; i++)
-	{
-		if (buffer[i] != '\n' && buffer[i] != '\t')
+		buffer = getfile(argv[1]);
+		/*Tokenize the buffer*/
+		strcpy(copy, buffer);
+		line_count = no_of_lines(buffer);
+		tokens = token_maker(copy, delim, &line_count);
+		/*Match arg to funct*/
+		for (j = 0; commands[j].opcode != NULL; j++)
 		{
-			temp[index] = buffer[i];
-			index++;
-		}	
-	}
-	temp[index] = '\0';
-	/*Remove last trailing newline*/
-	for (index -= 1; temp[index] != '\0'; index++)
-	{
-		if (temp[index] == '\n')
-		{
-			temp[index] = '\0';
-			break;
+			for (i = 0; tokens[i] != NULL; i++)
+			{
+				if (strcmp(commands[j].opcode, tokens[i]) == 0)
+					(commands[j].f)(head, ++line);
+			}
 		}
-	}
-	printf("lines = %d\n", len);
-	printf("%s\n", temp);
-	/*Tokenize the buffer*/
-/*	tokens = token_maker(temp, "\n", &len);*/
-
-	tokens = malloc(sizeof(char *) * len + 1);
-	if (!tokens)
-	{
-		printf("malloc failed\n");
-		return (0);
-	}
-/*	temp = malloc(sizeof(char) * 10);
-	for (index = 0; buffer[index] != '\0' && index < len; index++)
-	{
-		temp = malloc(sizeof(char) * 10);
-		while (buffer[i] != '\n')
-		{
-			temp[i] = buffer[i];
-			i++;
-			index++;
-		}
-		temp[i] = '\0';
-		tokens[index] = temp;
-		free(temp);
-		
-	}
-	*/
-	
-/*	piece = strtok(temp, delim);
-	while (piece != NULL)
-	{
-		i = strlen(piece);
-		printf("%s\n", piece);
-		tokens[index] = malloc(sizeof(char) * i);
-		strcpy(tokens[index], piece);
-		piece = strtok(NULL, delim);
-		index++;
-	}
 
 
-	for (i = 0; tokens[i] != NULL; i++)
-		printf("%s\n", tokens[i]);	
-*/	}
+	}
 	return (0);
 }
 	
