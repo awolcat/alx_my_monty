@@ -8,28 +8,22 @@ void usage_error(void)
 
 void read_error(char *str)
 {
-	int len;
-	int len2;
-	char *message;
-	char *prefix = "Error: Can't open file ";
+	char *prefix = "Error: Can't open file";
 
-	len = strlen(str) + 1;
-	len2 = strlen(prefix);
-	message = malloc(sizeof(char) * (len + len2));
-	for (len = 0; prefix[len] != '\0'; len++)
-		message[len] = prefix[len];
-	for (len2 = 0; str[len2] != '\0'; len2++, len++)
-	       message[len] = str[len2];
-	message[len] = '\0';
-	write(2, message, 1024);
-	free(message);
+	fprintf(stderr, "%s %s\n", prefix, str);
 }
 
 void pop_error(int line)
 {
-        char *postfix = ": can't pop an empty stack\n";
+	fprintf(stderr, "L%d: can't pop an empty stack\n", line);
+}
 
-        write(2, "L", 1);
-        write(2, &line, 5);
-        write(2, postfix, strlen(postfix));
+void swap_error(unsigned int line_number)
+{
+	fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+}
+
+void add_error(unsigned int line_number)
+{
+	fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
 }

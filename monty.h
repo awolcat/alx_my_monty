@@ -46,13 +46,22 @@ int no_of_args(char *str);
 int check_num(void);
 void read_error(char *str);
 void usage_error(void);
-
+void free_stack(stack_t **head);
+void free_grid(char **);
 /* OPCODE FUNCTIONS */
+
 void add_head(stack_t **head, unsigned int line_number);
 void print_list(stack_t **head, unsigned int line_number __attribute__((unused)));
 void pop_stack(stack_t **head, unsigned int line_number);
-
+void pint_top(stack_t **head, unsigned int line_number);
+void swap_stack(stack_t **head, unsigned int line_number);
+void op_add(stack_t **head, unsigned int line_number);
+void nop(stack_t **head, unsigned int line_number);
 /* OPCODE ERRORS */
+
 void push_usage_error(int line_no);
 void pop_error(int line);
+void pint_error(unsigned int line);
+void swap_error(unsigned int);
+void add_error(unsigned int);
 #endif

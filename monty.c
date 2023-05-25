@@ -1,5 +1,7 @@
 #include "monty.h"
+
 char **tokens;
+
 int main(int argc, char	*argv[])
 {
 	FILE *stream;
@@ -15,6 +17,10 @@ int main(int argc, char	*argv[])
 		{"push", add_head},
 		{"pall", print_list},
 		{"pop", pop_stack},
+		{"pint", pint_top},
+		{"swap", swap_stack},
+		{"add", op_add},
+		{"nop", nop},
 		{NULL, NULL}
 	};
 	
@@ -32,12 +38,13 @@ int main(int argc, char	*argv[])
 	while (getline(&buffer, &line_size, stream) != - 1)
 	{
 		line_no += 1;
+		arg_count = no_of_args(buffer);
 		copy = malloc(sizeof(char) * line_size + 1);
 		/*Tokenize the line*/
 		strcpy(copy, buffer);
-		arg_count = no_of_args(buffer);
 		tokens = token_maker(copy, delim, &arg_count);
-		/* Free redundant buffer free(buffer);*/
+		/* Free redundant buffer
+		free(buffer);*/
 		/* Match arg to funct */
 		for (j = 0; commands[j].opcode != NULL; j++)
 		{
@@ -51,6 +58,7 @@ int main(int argc, char	*argv[])
 		}
 
 	}
+	free_stack(&head);
+	free_grid(tokens);
 	return (0);
-}
-	
+}	

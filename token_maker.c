@@ -23,6 +23,7 @@ char **token_maker(char *str, char *delim, int *arg_count)
 	while (tmp != NULL)
 	{
 		new[i] = tmp;
+		free(tmp);
 		tmp = strtok(NULL, delim);
 		i++;
 	}
