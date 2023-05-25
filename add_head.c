@@ -2,40 +2,32 @@
 
 void push_usage_error(int line_no)
 {
-	char *postfix = ": usage: push integer";
-	char *message;
-	char num_c[4];
-	int len, len2, total;
-	int line = line_no;
+	char *postfix = ": usage: push integer\n";
+	int len;
 
 	len = strlen(postfix);
-	for (; line > 0 && len2 < 3; line /= 10)
-		num_c[len2++] = (line % 10) + '0';
-	num_c[len2++] = '\0';
-	total = len + len2;
-	message = malloc(sizeof(char) * (total + 1));
-	message[0] = 'L';
-	for (line = 1, len = 0; num_c[len] != '\0'; line++, len++) 
-		message[line] = num_c[len];
-	for (len = 0; line <= total; line++, len++)
-		message[line] = postfix[len];
-	message[line] = '\0';
-	write(2, message, total);
-	free(message);
+	write(2, "L", 1);
+	write(2, &line_no, 5);	
+	write(2, postfix, len);
 }
 
 int check_num(void)
 {
 	int i, flag = 0;
-
-	for (i = 0; tokens[1][i]; i++)
+	
+	if (tokens[1] != NULL)
 	{
-		if (tokens[1][i] < '0' || tokens[1][i] > '9')
+		for (i = 0; tokens[1][i]; i++)
 		{
-			flag = 1;
-			break;
+			if (tokens[1][i] < '0' || tokens[1][i] > '9')
+			{
+				flag = 1;
+				break;
+			}
 		}
 	}
+	else
+		flag = 1;
 	return (flag);
 }
 /**
@@ -54,7 +46,7 @@ void add_head(stack_t **head, unsigned int line_number)
 	if (!new)
 		exit(EXIT_FAILURE);
 	num_flag = check_num();
-	if (num_flag == 1 || !tokens[1])
+	if (num_flag == 1)
 	{
 		push_usage_error(line_number);
 		exit(EXIT_FAILURE);

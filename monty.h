@@ -50,7 +50,9 @@ void usage_error(void);
 /* OPCODE FUNCTIONS */
 void add_head(stack_t **head, unsigned int line_number);
 void print_list(stack_t **head, unsigned int line_number __attribute__((unused)));
+void pop_stack(stack_t **head, unsigned int line_number);
 
 /* OPCODE ERRORS */
 void push_usage_error(int line_no);
+void pop_error(int line);
 #endif

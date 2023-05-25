@@ -24,3 +24,12 @@ void read_error(char *str)
 	write(2, message, 1024);
 	free(message);
 }
+
+void pop_error(int line)
+{
+        char *postfix = ": can't pop an empty stack\n";
+
+        write(2, "L", 1);
+        write(2, &line, 5);
+        write(2, postfix, strlen(postfix));
+}

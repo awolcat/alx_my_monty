@@ -14,6 +14,7 @@ int main(int argc, char	*argv[])
 	instruction_t commands[] = {
 		{"push", add_head},
 		{"pall", print_list},
+		{"pop", pop_stack},
 		{NULL, NULL}
 	};
 	
