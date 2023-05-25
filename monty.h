@@ -6,6 +6,9 @@
 #include <string.h>
 #include <unistd.h>
 
+/* GLOBAL VARIABLE */
+extern char **tokens;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -36,10 +39,18 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/*FILE PARSER FUNCTIONS*/
+/* HELPER FUNCTIONS */
 
-char *getfile(char* file);
 char **token_maker(char *str, char *delim, int*);
-int no_of_lines(char *str);
+int no_of_args(char *str);
+int check_num(void);
+void read_error(char *str);
+void usage_error(void);
 
+/* OPCODE FUNCTIONS */
+void add_head(stack_t **head, unsigned int line_number);
+void print_list(stack_t **head, unsigned int line_number __attribute__((unused)));
+
+/* OPCODE ERRORS */
+void push_usage_error(int line_no);
 #endif

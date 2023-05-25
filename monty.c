@@ -1,37 +1,53 @@
 #include "monty.h"
-int main(int argc, char *argv[])
+char **tokens;
+int main(int argc, char	*argv[])
 {
-	char *buffer = NULL, **tokens = NULL;
+	FILE *stream;
+	char *buffer = NULL;
 	char *delim = " \n\t";
-	char copy[1024];
-	int i, line_count;	/*file lengths in bytes*/
-	stack_t **head;
-	unsigned int line = 0;
+	char *copy;
+	int arg_count, j, i;
+	unsigned int line_no = 0;
+	stack_t *head = NULL;
+	size_t line_size;
 	
 	instruction_t commands[] = {
 		{"push", add_head},
 		{"pall", print_list},
 		{NULL, NULL}
-	}
-
-	/*Usage: monty file*/
-	if (argc == 2)
+	};
+	
+	if (argc != 2)
 	{
-		buffer = getfile(argv[1]);
-		/*Tokenize the buffer*/
+		usage_error();
+		return (EXIT_FAILURE);	
+	}
+	stream = fopen(argv[1], "r");
+	if (stream == NULL)
+	{
+		read_error(argv[1]);
+		return (EXIT_FAILURE);
+	}
+	while (getline(&buffer, &line_size, stream) != - 1)
+	{
+		line_no += 1;
+		copy = malloc(sizeof(char) * line_size + 1);
+		/*Tokenize the line*/
 		strcpy(copy, buffer);
-		line_count = no_of_lines(buffer);
-		tokens = token_maker(copy, delim, &line_count);
-		/*Match arg to funct*/
+		arg_count = no_of_args(buffer);
+		tokens = token_maker(copy, delim, &arg_count);
+		/* Free redundant buffer free(buffer);*/
+		/* Match arg to funct */
 		for (j = 0; commands[j].opcode != NULL; j++)
 		{
 			for (i = 0; tokens[i] != NULL; i++)
 			{
 				if (strcmp(commands[j].opcode, tokens[i]) == 0)
-					(commands[j].f)(head, ++line);
+				{
+					(commands[j].f)(&head, line_no);
+				}
 			}
 		}
-
 
 	}
 	return (0);

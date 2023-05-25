@@ -8,20 +8,17 @@
  * Return: An array of pointers if successful, NULL otherwise
  */
 
-char **token_maker(char *str, char *delim, int *line_count)
+char **token_maker(char *str, char *delim, int *arg_count)
 {
 	char **new = NULL;
 	int i = 0;
 	char *tmp = NULL;
-	int len = *line_count;
 	char *copy;
 
 	copy = strdup(str);
-	printf("%s\n", str);
-        /*Tokenize the buffer*/
-	new = malloc(sizeof(char *) * len);
+	new = malloc(sizeof(char *) * (*arg_count + 1));
 	if (!new)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	tmp = strtok(copy, delim);
 	while (tmp != NULL)
 	{
@@ -30,6 +27,5 @@ char **token_maker(char *str, char *delim, int *line_count)
 		i++;
 	}
 	new[i] = NULL;
-
 	return (new);
 }
