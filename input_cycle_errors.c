@@ -3,7 +3,7 @@
 
 void usage_error(void)
 {
-	write(2, "USAGE: monty fiile", 1024);
+	fprintf(stderr, "USAGE: monty file\n");
 }
 
 void read_error(char *str)

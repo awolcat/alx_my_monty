@@ -27,13 +27,13 @@ int main(int argc, char	*argv[])
 	if (argc != 2)
 	{
 		usage_error();
-		return (EXIT_FAILURE);	
+		exit(EXIT_FAILURE);	
 	}
 	stream = fopen(argv[1], "r");
 	if (stream == NULL)
 	{
 		read_error(argv[1]);
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	while (getline(&buffer, &line_size, stream) != - 1)
 	{
@@ -53,12 +53,14 @@ int main(int argc, char	*argv[])
 				if (strcmp(commands[j].opcode, tokens[i]) == 0)
 				{
 					(commands[j].f)(&head, line_no);
+					break;
 				}
 			}
 		}
 
 	}
+	fclose(stream);
 	free_stack(&head);
-	free_grid(tokens);
-	return (0);
+/*	free_grid(tokens);
+*/	return (0);
 }	
