@@ -41,8 +41,8 @@ typedef struct instruction_s
 
 /* HELPER FUNCTIONS */
 
-char **token_maker(char *str, char *delim, int*);
-int no_of_args(char *str);
+char **token_maker(char *str, char *delim, int*, size_t *);
+int no_of_args(char *str, char *, size_t *);
 int check_num(void);
 void read_error(char *str);
 void usage_error(void);
